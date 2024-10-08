@@ -47,7 +47,6 @@ class Automaton {
 const input = JSON.parse(fs.readFileSync("./arquivo_do_automato.aut"))
 const tests = fs.readFileSync("./arquivo_de_testes.in")
 
-// Exemplo de uso:
 const automaton = new Automaton();
 automaton.initialState = input.initial
 
