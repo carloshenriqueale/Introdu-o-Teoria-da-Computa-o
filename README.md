@@ -53,4 +53,4 @@ aaaaaaaaaaaa;0
 aaaaabaaaaa;1
 ```
 
-Rode o projeto usando `node index.js` ou use um arquivo reesctivo.
+Rode o projeto usando `node index.js` ou use um arquivo reespectivo.
