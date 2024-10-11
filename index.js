@@ -44,34 +44,45 @@ class Automaton {
     }
 }
 
-const input = JSON.parse(fs.readFileSync("./arquivo_do_automato.aut"))
-const tests = fs.readFileSync("./arquivo_de_testes.in")
+const automatoFileName = process.argv[2];
+const testFileName = process.argv[3];
+const outputFileName = process.argv[4] || './arquivo_de_saida.out';
+
+if (!automatoFileName || !testFileName) {
+    console.log("Por favor, forneça os nomes dos arquivos de autômato e teste.");
+    process.exit(1);
+}
+
+const input = JSON.parse(fs.readFileSync(automatoFileName));
+const tests = fs.readFileSync(testFileName);
 
 const automaton = new Automaton();
-automaton.initialState = input.initial
+automaton.initialState = input.initial;
 
 for (const transition of input.transitions) {
     automaton.addTransition(parseInt(transition.from), transition.read, parseInt(transition.to));
 }
 
 for (const final of input.final) {
-    automaton.addFinalState(final)
+    automaton.addFinalState(final);
 }
 
-const inputString = tests.toString().trim().split("\r\n")
+const inputString = tests.toString().trim().split("\r\n");
 
-const values = []
+const values = [];
 
 for (const test of inputString) {
-    const [input, expected] = test.split(";")
+    const [input, expected] = test.split(";");
 
-    const currentTime = Date.now()
-    const result = automaton.run(input)
-    const laterTime = Date.now()
-    const timeTaken = (laterTime - currentTime).toFixed(3)
+    const currentTime = Date.now();
+    const result = automaton.run(input);
+    const laterTime = Date.now();
+    const timeTaken = (laterTime - currentTime).toFixed(3);
 
-    const resultInt = result ? "1" : "0"
-    values.push(`${input};${expected};${resultInt};${timeTaken}`)
+    const resultInt = result ? "1" : "0";
+    values.push(`${input};${expected};${resultInt};${timeTaken}`);
 }
 
-fs.writeFileSync("./arquivo_de_saida.out", values.join("\n"))
+fs.writeFileSync(outputFileName, values.join("\n"));
+
+console.log(`Resultado salvo em: ${outputFileName}`);
